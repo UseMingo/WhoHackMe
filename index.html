@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who Hacked Me?</title>
+    <style>
+        body {
+            background-color: black;
+            color: lime;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            overflow: hidden;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .button {
+            background-color: red;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .chat-box {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            height: 400px;
+            background-color: rgba(0, 0, 0, 0.9);
+            border: 2px solid lime;
+            display: none;
+            flex-direction: column;
+        }
+        .chat-header {
+            background: lime;
+            padding: 5px;
+            text-align: center;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .chat-messages {
+            flex-grow: 1;
+            padding: 10px;
+            overflow-y: auto;
+            font-size: 14px;
+            text-align: left;
+        }
+        .chat-input {
+            width: 100%;
+            padding: 5px;
+            border: none;
+            font-size: 16px;
+        }
+        .hacker-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: black;
+            border: 2px solid lime;
+            color: lime;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Who Hacked Me?</h1>
+        <p>Enter your details to scan for security threats.</p>
+        <input type="text" id="username" placeholder="Enter Username">
+        <input type="email" id="email" placeholder="Enter Email">
+        <button class="button" onclick="startScan()">Start Scan</button>
+        <p id="scanResult"></p>
+        <button id="fixSecurityBtn" class="button" style="display: none;" onclick="fixSecurity()">Fix My Security</button>
+    </div>
+
+    <div id="hackerChatBox" class="chat-box">
+        <div class="chat-header" onclick="toggleChat()">💻 Hacker Chat (Click to Close)</div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <input type="text" class="chat-input" id="chatInput" placeholder="Type here..." onkeypress="handleChat(event)">
+    </div>
+
+    <button class="hacker-btn" onclick="toggleChat()">👤</button>
+
+    <script>
+        let scanned = false;
+        let fixingSecurity = false;
+        
+        function startScan() {
+            let username = document.getElementById("username").value;
+            let email = document.getElementById("email").value;
+
+            if (!username || !email) {
+                alert("Please enter your username and email.");
+                return;
+            }
+
+            let hackerName = ["DarkShadow", "CyberGhost", "AnonX", "ShadowByte"][Math.floor(Math.random() * 4)];
+            let fakeIP = "192.168." + Math.floor(Math.random() * 255) + "." + Math.floor(Math.random() * 255);
+            let threatLevel = Math.floor(Math.random() * 100) + 1;
+
+            document.getElementById("scanResult").innerHTML = 
+                `👤 Hacker Detected: ${hackerName} <br>` +
+                `💻 IP Address: ${fakeIP} <br>` +
+                `⚠️ Threat Level: ${threatLevel}% <br><br>` +
+                `🔓 Exploited Weakness: Phishing, Data Leak <br>` +
+                `🔴 Suggested Action: Change Password & Enable 2FA <br>`;
+
+            document.getElementById("fixSecurityBtn").style.display = "block";
+            scanned = true;
+        }
+
+        function fixSecurity() {
+            if (!scanned) return;
+
+            localStorage.setItem("securityFixed", "true");
+            window.location.href = "https://your-monetization-site.com"; 
+        }
+
+        function checkSecurityStatus() {
+            if (localStorage.getItem("securityFixed") === "true") {
+                document.body.innerHTML = "<h1>Fixing your security...</h1>";
+                setTimeout(() => {
+                    document.body.innerHTML = "<h1>Your security is now fixed! No hacker can hack you now.</h1>";
+                    localStorage.removeItem("securityFixed");
+                }, 3000);
+            }
+        }
+
+        function toggleChat() {
+            let chatBox = document.getElementById("hackerChatBox");
+            chatBox.style.display = chatBox.style.display === "none" ? "flex" : "none";
+        }
+
+        function handleChat(event) {
+            if (event.key === "Enter") {
+                let input = document.getElementById("chatInput").value;
+                if (input.trim() === "") return;
+
+                let chatMessages = document.getElementById("chatMessages");
+                let userMsg = `<p><b>You:</b> ${input}</p>`;
+                chatMessages.innerHTML += userMsg;
+                
+                let hackerResponses = [
+                    "Hacker: You can't stop me!",
+                    "Hacker: Checkout my new sponser ayan!",
+                    "Hacker: Haha, nice try!",
+                    "Hacker: Your data is already mine!"
+					
+                ];
+                let reply = hackerResponses[Math.floor(Math.random() * hackerResponses.length)];
+
+                setTimeout(() => {
+                    chatMessages.innerHTML += `<p>${reply}</p>`;
+                }, 1000);
+
+                document.getElementById("chatInput").value = "";
+            }
+        }
+
+        checkSecurityStatus();
+    </script>
+
+</body>
+</html>
